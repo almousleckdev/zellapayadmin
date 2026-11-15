@@ -1,0 +1,126 @@
+{
+  "common": {
+    "appName": "ZellaPay Admin"
+  },
+  "errors": {
+    "field": {
+      "reasonShort": "Indiquez un motif d'au moins 5 caractères.",
+      "reasonLong": "500 caractères au maximum."
+    },
+    "invalid_transition": "Le statut du marchand a changé depuis l'ouverture de cette page. Rechargez et vérifiez.",
+    "invalid_request": "La demande est invalide. Indiquez un motif d'au moins 5 caractères."
+  },
+  "auth": {
+    "signIn": {
+      "title": "Console d’administration",
+      "subtitle": "Réservée au personnel ZellaPay.",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Continuer"
+    },
+    "passkey": {
+      "title": "Utilisez votre clé d’accès",
+      "subtitle": "Confirmez votre identité avec une clé de sécurité, l’empreinte digitale ou le téléphone enregistré.",
+      "use": "Utiliser ma clé d’accès",
+      "unsupported": "Ce navigateur ne gère pas les clés d’accès. Utilisez une version récente de Chrome, Safari ou Firefox.",
+      "cancelled": "La clé d’accès n’a pas été utilisée. Réessayez.",
+      "signOutInstead": "Changer de compte",
+      "exists": "Cet appareil possède déjà une de vos clés d’accès. Utilisez une autre clé de sécurité ou un autre appareil."
+    },
+    "setup": {
+      "title": "Enregistrez une clé d’accès",
+      "subtitle": "Votre compte exige une clé d’accès. Elle remplace tout code à saisir et ne peut pas être hameçonnée.",
+      "label": "Nom de la clé",
+      "labelHint": "Par exemple « YubiKey » ou « MacBook ».",
+      "labelDefault": "Ma clé d’accès",
+      "start": "Enregistrer la clé d’accès"
+    }
+  },
+  "nav": {
+    "overview": "Aperçu",
+    "security": "Sécurité",
+    "menu": "Navigation principale",
+    "merchants": "Marchands"
+  },
+  "home": {
+    "welcome": "Bonjour, {name}",
+    "intro": "La console est prête. La gestion des marchands, la revue des dossiers et les journaux d’audit arrivent dans les prochaines versions.",
+    "role": "Rôle : {role}",
+    "secondPasskey": "Ajoutez une deuxième clé d’accès. Si vous perdez la première, vous ne pourrez plus vous connecter."
+  },
+  "roles": {
+    "support": "Support",
+    "risk_analyst": "Analyste risque",
+    "finance": "Finance",
+    "admin": "Administrateur",
+    "super_admin": "Super administrateur"
+  },
+  "security": {
+    "title": "Sécurité",
+    "subtitle": "Gérez vos clés d’accès.",
+    "passkeys": {
+      "title": "Clés d’accès",
+      "subtitle": "Chaque personne du personnel enregistre au moins deux clés.",
+      "name": "Nom",
+      "created": "Ajoutée le",
+      "lastUsed": "Dernier usage",
+      "never": "Jamais",
+      "empty": "Aucune clé d’accès.",
+      "add": "Ajouter une clé d’accès",
+      "added": "Clé d’accès ajoutée."
+    }
+  },
+  "merchants": {
+    "title": "Marchands",
+    "subtitle": "Consultez les marchands, suspendez-les ou rétablissez-les.",
+    "notAllowed": "Votre rôle ne permet pas de consulter les marchands.",
+    "badQuery": "Cette recherche n'est pas valide. Effacez les filtres et réessayez.",
+    "empty": "Aucun marchand ne correspond.",
+    "status": {
+      "pending": "En attente",
+      "active": "Actif",
+      "suspended": "Suspendu"
+    },
+    "columns": {
+      "name": "Nom",
+      "status": "Statut",
+      "currency": "Devise",
+      "created": "Créé le"
+    },
+    "filter": {
+      "status": "Filtrer par statut",
+      "all": "Tous",
+      "search": "Rechercher par nom",
+      "apply": "Rechercher"
+    },
+    "pagination": {
+      "next": "Page suivante",
+      "first": "Retour à la première page"
+    },
+    "detail": {
+      "title": "Détails",
+      "subtitle": "Les coordonnées sont masquées dans cette vue.",
+      "id": "Identifiant du marchand",
+      "kyc": "Vérification d'identité",
+      "fee": "Frais d'encaissement",
+      "payoutFee": "Frais de versement"
+    },
+    "reason": {
+      "label": "Motif",
+      "hint": "Obligatoire. Il est conservé dans le journal d'audit. N'y mettez pas de données personnelles.",
+      "again": "Faire un autre changement"
+    },
+    "suspend": {
+      "title": "Suspendre ce marchand",
+      "warning": "Les clés API du marchand cessent de fonctionner immédiatement et aucun paiement ne peut être encaissé.",
+      "submit": "Suspendre le marchand",
+      "done": "Le marchand est suspendu."
+    },
+    "restore": {
+      "title": "Rétablir ce marchand",
+      "warning": "Les clés API du marchand refonctionnent et les paiements reprennent.",
+      "submit": "Rétablir le marchand",
+      "done": "Le marchand est de nouveau actif."
+    }
+  }
+}

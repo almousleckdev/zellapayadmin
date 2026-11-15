@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZellaPay Admin
 
-## Getting Started
+The internal admin console: merchant approval and KYC, risk review, transaction investigation, operator health, reconciliation and audit.
 
-First, run the development server:
+Part of ZellaPay. See `../zellapay/docs/ecosystem/README.md` for how the
+four projects connect.
+
+| | |
+|---|---|
+| Audience | ZellaPay staff only |
+| Backend route group | `/admin/*` (staff session) |
+| Dev port | 3002 |
+| Stack | Next.js 16, React 19, TypeScript, Tailwind CSS 4, pnpm |
+
+## Planned features
+
+- `features/merchants/`: Merchant list, approval, KYC review, suspension
+- `features/risk-review/`: Queue of held payouts: approve or reject
+- `features/transactions/`: Search and timeline of any transaction
+- `features/operators/`: Operator health and routing status
+- `features/reconciliation/`: Breaks, cases and ambiguous-outcome resolution
+- `features/audit-log/`: Read-only view of the audit trail
+- `features/staff/`: Staff accounts and roles
+
+Status: foundation only. Structure, standards and documentation are in place;
+features are built against the backend contract as it becomes available.
+
+## Getting started
+
+Requires Node 20 or newer and pnpm 10.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+cp .env.example .env.local   # then fill in values
+pnpm dev                     # http://localhost:3002
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | Purpose |
+|---|---|
+| `pnpm dev` | Development server on port 3002 |
+| `pnpm build` | Production build |
+| `pnpm start` | Serve the production build |
+| `pnpm lint` | ESLint |
+| `pnpm typecheck` | TypeScript, no emit |
+| `pnpm limits` | File and line length limits |
+| `pnpm check` | Limits, lint and types: run before every review |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Documentation
 
-## Learn More
+- [Engineering standards](CLAUDE.md)
+- [Architecture](docs/architecture.md)
+- [Security](docs/security.md)
+- [API integration](docs/api-integration.md)
+- [Ecosystem map](../zellapay/docs/ecosystem/README.md)
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT, as the rest of ZellaPay.

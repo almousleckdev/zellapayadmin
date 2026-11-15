@@ -1,0 +1,30 @@
+import type { ReactNode } from "react";
+import { AuthFrame } from "@zellapay/app-kit";
+import type { Locale } from "@/lib/i18n/locales";
+import { getTranslate } from "@/lib/i18n/server";
+import type { MessageKey } from "@/lib/i18n/translate";
+import { route } from "@/lib/routes";
+
+type AuthPageProps = {
+  locale: Locale;
+  /** Catalogue prefix of the page, for example "auth.signIn". */
+  scope: "auth.signIn" | "auth.passkey" | "auth.setup";
+  footer?: ReactNode;
+  children: ReactNode;
+};
+
+/** The frame of every pre-sign-in page, titled from its catalogue scope. */
+export async function AuthPage({ locale, scope, footer, children }: AuthPageProps) {
+  const t = await getTranslate(locale);
+  return (
+    <AuthFrame
+      logoHref={route(locale, "home")}
+      appName={t("common.appName")}
+      title={t(`${scope}.title` as MessageKey)}
+      subtitle={t(`${scope}.subtitle` as MessageKey)}
+      footer={footer}
+    >
+      {children}
+    </AuthFrame>
+  );
+}

@@ -1,0 +1,126 @@
+{
+  "common": {
+    "appName": "ZellaPay Admin"
+  },
+  "errors": {
+    "field": {
+      "reasonShort": "Give a reason of at least 5 characters.",
+      "reasonLong": "500 characters at most."
+    },
+    "invalid_transition": "The merchant's status has changed since you opened this page. Reload and check.",
+    "invalid_request": "The request is invalid. Give a reason of at least 5 characters."
+  },
+  "auth": {
+    "signIn": {
+      "title": "Admin console",
+      "subtitle": "For ZellaPay staff only.",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Continue"
+    },
+    "passkey": {
+      "title": "Use your passkey",
+      "subtitle": "Confirm it is you with a security key, your fingerprint or your registered phone.",
+      "use": "Use my passkey",
+      "unsupported": "This browser does not support passkeys. Use a recent version of Chrome, Safari or Firefox.",
+      "cancelled": "The passkey was not used. Try again.",
+      "signOutInstead": "Use another account",
+      "exists": "This device already holds one of your passkeys. Use another security key or device."
+    },
+    "setup": {
+      "title": "Register a passkey",
+      "subtitle": "Your account requires a passkey. It replaces any code you type and cannot be phished.",
+      "label": "Passkey name",
+      "labelHint": "For example \"YubiKey\" or \"MacBook\".",
+      "labelDefault": "My passkey",
+      "start": "Register passkey"
+    }
+  },
+  "nav": {
+    "overview": "Overview",
+    "security": "Security",
+    "menu": "Main navigation",
+    "merchants": "Merchants"
+  },
+  "home": {
+    "welcome": "Hello, {name}",
+    "intro": "The console is ready. Merchant management, application review and audit logs arrive in upcoming releases.",
+    "role": "Role: {role}",
+    "secondPasskey": "Add a second passkey. If you lose the first one, you will not be able to sign in."
+  },
+  "roles": {
+    "support": "Support",
+    "risk_analyst": "Risk analyst",
+    "finance": "Finance",
+    "admin": "Administrator",
+    "super_admin": "Super administrator"
+  },
+  "security": {
+    "title": "Security",
+    "subtitle": "Manage your passkeys.",
+    "passkeys": {
+      "title": "Passkeys",
+      "subtitle": "Every staff member registers at least two.",
+      "name": "Name",
+      "created": "Added",
+      "lastUsed": "Last used",
+      "never": "Never",
+      "empty": "No passkeys.",
+      "add": "Add a passkey",
+      "added": "Passkey added."
+    }
+  },
+  "merchants": {
+    "title": "Merchants",
+    "subtitle": "Look up merchants and suspend or restore them.",
+    "notAllowed": "Your role cannot view merchants.",
+    "badQuery": "This search is not valid. Clear the filters and try again.",
+    "empty": "No merchants match.",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "suspended": "Suspended"
+    },
+    "columns": {
+      "name": "Name",
+      "status": "Status",
+      "currency": "Currency",
+      "created": "Created"
+    },
+    "filter": {
+      "status": "Filter by status",
+      "all": "All",
+      "search": "Search by name",
+      "apply": "Search"
+    },
+    "pagination": {
+      "next": "Next page",
+      "first": "Back to the first page"
+    },
+    "detail": {
+      "title": "Details",
+      "subtitle": "Contact details are hidden in this view.",
+      "id": "Merchant ID",
+      "kyc": "Identity check",
+      "fee": "Collection fee",
+      "payoutFee": "Payout fee"
+    },
+    "reason": {
+      "label": "Reason",
+      "hint": "Required. It is kept in the audit log. Do not include personal data.",
+      "again": "Make another change"
+    },
+    "suspend": {
+      "title": "Suspend this merchant",
+      "warning": "The merchant's API keys stop working at once and no payment can be taken.",
+      "submit": "Suspend merchant",
+      "done": "The merchant is suspended."
+    },
+    "restore": {
+      "title": "Restore this merchant",
+      "warning": "The merchant's API keys work again and payments resume.",
+      "submit": "Restore merchant",
+      "done": "The merchant is active again."
+    }
+  }
+}
