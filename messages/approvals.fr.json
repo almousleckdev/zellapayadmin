@@ -1,0 +1,78 @@
+{
+  "approvals": {
+    "title": "Approbations",
+    "subtitle": "Les changements qui exigent une seconde personne avant de s'appliquer.",
+    "openTitle": "En attente de décision",
+    "recentTitle": "Décidées récemment",
+    "noneOpen": "Rien n'attend de décision.",
+    "noneRecent": "Aucune décision pour l'instant.",
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvée",
+      "rejected": "Refusée",
+      "expired": "Expirée"
+    },
+    "kind": {
+      "activate": "Mettre ce marchand en service",
+      "fees": "Passer les frais à {fee} sur les encaissements et {payout} sur les versements"
+    },
+    "byYou": "Demandée par vous",
+    "byColleague": "Demandée par un collègue",
+    "expires": "expire le {at}",
+    "decision": "Décision : {reason}",
+    "waiting": "En attente d'une seconde personne. Vous ne pouvez pas approuver votre propre demande.",
+    "approve": {
+      "trigger": "Approuver",
+      "title": "Approuver ce changement",
+      "submit": "Approuver",
+      "done": "Approuvé. Le changement est en vigueur."
+    },
+    "reject": {
+      "trigger": "Refuser",
+      "title": "Refuser ce changement",
+      "submit": "Refuser",
+      "done": "Refusé. Rien n'a été modifié."
+    },
+    "activation": {
+      "title": "Mise en service",
+      "subtitle": "Une seconde personne doit approuver avant que le marchand puisse encaisser.",
+      "trigger": "Demander l'activation",
+      "submit": "Envoyer la demande",
+      "done": "Demandée. Une seconde personne doit maintenant approuver.",
+      "waiting": "L'activation attend l'approbation d'une seconde personne.",
+      "noRole": "Votre rôle ne permet pas de demander l'activation."
+    },
+    "fees": {
+      "trigger": "Modifier les frais",
+      "title": "Modifier les frais",
+      "subtitle": "Les nouveaux frais ne s'appliquent qu'après l'approbation d'une seconde personne.",
+      "submit": "Envoyer la demande",
+      "done": "Demandé. Les frais changent après l'approbation d'une seconde personne.",
+      "collection": "Frais d'encaissement (%)",
+      "payout": "Frais de versement (%)",
+      "percentHint": "Par exemple 1,5",
+      "pending": "Changement en attente"
+    }
+  },
+  "activity": {
+    "title": "Activité",
+    "empty": "Rien ne s'est encore passé pour ce marchand.",
+    "actions": {
+      "merchant": {
+        "created": "Marchand créé",
+        "suspended": "Marchand suspendu",
+        "restored": "Marchand rétabli",
+        "activated": "Marchand activé",
+        "activation_requested": "Activation demandée",
+        "fees_requested": "Changement de frais demandé",
+        "fees_changed": "Frais modifiés",
+        "change_rejected": "Demande refusée"
+      },
+      "api_key": {
+        "created": "Clé API créée",
+        "rotated": "Clé API renouvelée",
+        "revoked": "Clé API révoquée"
+      }
+    }
+  }
+}

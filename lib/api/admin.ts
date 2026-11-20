@@ -1,12 +1,21 @@
 import "server-only";
 import { call } from "./client";
 import type {
+  Activity,
   ApiResult,
+  ChangeRequest,
+  ChangeRequestList,
+  FeeChange,
+  OperatorList,
   Current,
+  InviteRequest,
+  Invitation,
   Merchant,
   MerchantDetail,
   MerchantList,
   MerchantStatus,
+  NewMerchant,
+  Overview,
   Passkey,
   PasskeyList,
   SignedIn,
@@ -18,6 +27,8 @@ type Session = { token: string };
 
 /** The options object for `navigator.credentials`, as the backend sends it. */
 export type WebAuthnOptions = { publicKey: Record<string, unknown> };
+
+export type ApprovalQuery = { status?: ChangeRequest["status"]; merchantId?: string };
 
 export type MerchantQuery = {
   status?: MerchantStatus;
@@ -85,4 +96,64 @@ export const admin = {
       body: { reason },
       ...s,
     }),
+
+  createMerchant: (s: Session, body: NewMerchant): Promise<ApiResult<Merchant>> =>
+    call({ method: "POST", path: "/admin/merchants", body, ...s }),
+
+  inviteMerchantUser: (
+    s: Session,
+    id: string,
+    body: InviteRequest,
+  ): Promise<ApiResult<Invitation>> =>
+    call({
+      method: "POST",
+      path: `/admin/merchants/${encodeURIComponent(id)}/invitations`,
+      body,
+      ...s,
+    }),
+
+  getOverview: (s: Session, days: number): Promise<ApiResult<Overview>> =>
+    call({ method: "GET", path: `/admin/overview?days=${days}`, ...s }),
+
+  requestActivation: (s: Session, id: string, reason: string): Promise<ApiResult<ChangeRequest>> =>
+    call({
+      method: "POST",
+      path: `/admin/merchants/${encodeURIComponent(id)}/activation`,
+      body: { reason },
+      ...s,
+    }),
+
+  requestFees: (s: Session, id: string, body: FeeChange): Promise<ApiResult<ChangeRequest>> =>
+    call({
+      method: "POST",
+      path: `/admin/merchants/${encodeURIComponent(id)}/fees`,
+      body,
+      ...s,
+    }),
+
+  listApprovals: (s: Session, q: ApprovalQuery): Promise<ApiResult<ChangeRequestList>> => {
+    const params = new URLSearchParams();
+    if (q.status) params.set("status", q.status);
+    if (q.merchantId) params.set("merchant_id", q.merchantId);
+    return call({ method: "GET", path: `/admin/approvals?${params}`, ...s });
+  },
+
+  decide: (
+    s: Session,
+    id: string,
+    verb: "approve" | "reject",
+    reason: string,
+  ): Promise<ApiResult<ChangeRequest>> =>
+    call({
+      method: "POST",
+      path: `/admin/approvals/${encodeURIComponent(id)}/${verb}`,
+      body: { reason },
+      ...s,
+    }),
+
+  getActivity: (s: Session, id: string): Promise<ApiResult<Activity>> =>
+    call({ method: "GET", path: `/admin/merchants/${encodeURIComponent(id)}/activity`, ...s }),
+
+  listOperators: (s: Session): Promise<ApiResult<OperatorList>> =>
+    call({ method: "GET", path: "/admin/operators", ...s }),
 };

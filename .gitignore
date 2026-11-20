@@ -41,4 +41,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .next-e2e/
+/.next-preview/
 test-results/

@@ -143,7 +143,196 @@ export interface paths {
          */
         get: operations["listMerchants"];
         put?: never;
+        /**
+         * Register a merchant
+         * @description Needs `merchants:create`. The merchant starts `pending` and cannot take
+         *     payments until it is activated. The reason is audited.
+         */
+        post: operations["createMerchant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Merchant counts by status and by day
+         * @description Needs `merchants:read`. Days are in Gabon time (UTC+1).
+         */
+        get: operations["getOverview"];
+        put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Invite a person to a merchant
+         * @description Needs `merchants:invite`. Emails a single-use link; a newer invitation to
+         *     the same address replaces the older one. The email is sent by the
+         *     background worker, not by this request. The reason is audited.
+         */
+        post: operations["inviteMerchantUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/operators": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Mobile money operators and their number prefixes
+         * @description Needs `merchants:read`. Routing is the same for every merchant.
+         */
+        get: operations["listOperators"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/approvals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List change requests
+         * @description Needs `merchants:read`. Newest first. An open request past its 24 hours reads as `expired`.
+         */
+        get: operations["listApprovals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/approvals/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Approve a change request
+         * @description Needs `approvals:decide`. Applies the change in the same transaction. The person who asked gets `403 self_approval`.
+         */
+        post: operations["approveChangeRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/approvals/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reject a change request
+         * @description Needs `approvals:decide`. The merchant stays as it is.
+         */
+        post: operations["rejectChangeRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * What was done to a merchant
+         * @description Needs `merchants:read`. The latest 30 audit entries, newest first.
+         */
+        get: operations["getMerchantActivity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/activation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ask for a merchant to go live
+         * @description Needs `merchants:activate`. Only a `pending` merchant. A second staff member
+         *     must approve within 24 hours; the requester cannot. The reason is audited.
+         */
+        post: operations["requestMerchantActivation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/fees": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ask for a fee change
+         * @description Needs `merchants:fees`. A second staff member must approve within 24 hours;
+         *     the requester cannot. Nothing changes until it is approved.
+         */
+        post: operations["requestMerchantFees"];
         delete?: never;
         options?: never;
         head?: never;
@@ -244,7 +433,7 @@ export interface components {
              * @description What the member's role allows, such as `merchants:read`. The console
              *     shows only these; the backend checks every request anyway.
              */
-            permissions: ("merchants:read" | "merchants:suspend" | "merchants:restore")[];
+            permissions: ("merchants:read" | "merchants:suspend" | "merchants:restore" | "merchants:create" | "merchants:invite" | "merchants:activate" | "merchants:fees" | "approvals:decide")[];
         };
         Error: {
             error: {
@@ -319,11 +508,91 @@ export interface components {
             /** @description Pass as `cursor` for the next page. Null on the last page. */
             next_cursor: string | null;
         };
-        MerchantDetail: components["schemas"]["Merchant"] & {
-            /** @description Collection fee in basis points. Read only here. */
-            fee_bps: number;
-            /** @description Payout fee in basis points. Read only here. */
-            payout_fee_bps: number;
+        NewMerchant: {
+            name: string;
+            /** @description ISO 4217 code in capitals, such as `XAF`. */
+            currency: string;
+            /** @description Why staff are creating it, such as a contract reference. Audited. */
+            reason: string;
+        };
+        Overview: {
+            /** @description Change requests still waiting for a second person. */
+            pending_approvals: number;
+            total: number;
+            by_status: {
+                pending: number;
+                active: number;
+                suspended: number;
+            };
+            /** @description One entry per day in Gabon time, oldest first, zeros included. */
+            created_by_day: {
+                /** Format: date */
+                date: string;
+                count: number;
+            }[];
+        };
+        Invite: {
+            /** Format: email */
+            email: string;
+            /**
+             * @description What the person may do inside the merchant. Use `owner` for the first.
+             * @enum {string}
+             */
+            role: "owner" | "admin" | "developer" | "finance" | "support";
+            /**
+             * @description Language of the invitation email. French when left out.
+             * @enum {string}
+             */
+            locale?: "fr" | "en";
+            reason: string;
+        };
+        Invitation: {
+            id: string;
+            /** Format: email */
+            email: string;
+            role: string;
+            /** Format: date-time */
+            expires_at: string;
+        };
+        Operators: {
+            data: {
+                /** @example simulator */
+                code: string;
+                prefixes: string[];
+            }[];
+        };
+        ChangeRequest: {
+            id: string;
+            merchant_id: string;
+            /** @description Present in lists. */
+            merchant_name?: string;
+            /** @enum {string} */
+            kind: "activate" | "fees";
+            /** @description Fees requests only. */
+            fee_bps: number | null;
+            /** @description Fees requests only. */
+            payout_fee_bps: number | null;
+            reason: string;
+            /** @description The staff member's ID. */
+            requested_by: string;
+            /** @description True when the caller asked. They cannot decide it. */
+            requested_by_you: boolean;
+            /** Format: date-time */
+            requested_at: string;
+            /**
+             * Format: date-time
+             * @description 24 hours after it was requested.
+             */
+            expires_at: string;
+            /** @enum {string} */
+            status: "pending" | "approved" | "rejected" | "expired";
+            decided_by: string | null;
+            /** Format: date-time */
+            decided_at: string | null;
+            decision_reason: string;
+        };
+        ChangeRequestList: {
+            data: components["schemas"]["ChangeRequest"][];
         };
         StatusReason: {
             /**
@@ -331,6 +600,32 @@ export interface components {
              *     to other staff. Never put personal data in it.
              */
             reason: string;
+        };
+        Activity: {
+            data: {
+                /** @example merchant.suspended */
+                action: string;
+                /** @description A staff name */
+                actor: string;
+                reason: string;
+                /** Format: date-time */
+                at: string;
+                change: {
+                    [key: string]: string;
+                };
+            }[];
+        };
+        FeeChange: {
+            /** @description Collection fee in hundredths of a percent. 150 is 1.50 %. */
+            fee_bps: number;
+            payout_fee_bps: number;
+            reason: string;
+        };
+        MerchantDetail: components["schemas"]["Merchant"] & {
+            /** @description Collection fee in basis points. Read only here. */
+            fee_bps: number;
+            /** @description Payout fee in basis points. Read only here. */
+            payout_fee_bps: number;
         };
     };
     responses: {
@@ -483,6 +778,8 @@ export interface components {
     parameters: {
         /** @description The merchant ID. */
         MerchantId: string;
+        /** @description The change request ID. */
+        RequestId: string;
     };
     requestBodies: never;
     headers: never;
@@ -703,6 +1000,289 @@ export interface operations {
             400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthorized"];
             403: components["responses"]["Forbidden"];
+        };
+    };
+    createMerchant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewMerchant"];
+            };
+        };
+        responses: {
+            /** @description The merchant was created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    getOverview: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The counts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Overview"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    inviteMerchantUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The merchant ID. */
+                id: components["parameters"]["MerchantId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Invite"];
+            };
+        };
+        responses: {
+            /** @description The invitation was created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invitation"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["MerchantNotFound"];
+        };
+    };
+    listOperators: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The operators. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Operators"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listApprovals: {
+        parameters: {
+            query?: {
+                status?: "pending" | "approved" | "rejected" | "expired";
+                merchant_id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The requests. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeRequestList"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    approveChangeRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The change request ID. */
+                id: components["parameters"]["RequestId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StatusReason"];
+            };
+        };
+        responses: {
+            /** @description The decided request. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeRequest"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["MerchantNotFound"];
+            409: components["responses"]["InvalidTransition"];
+        };
+    };
+    rejectChangeRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The change request ID. */
+                id: components["parameters"]["RequestId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StatusReason"];
+            };
+        };
+        responses: {
+            /** @description The decided request. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeRequest"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["MerchantNotFound"];
+            409: components["responses"]["InvalidTransition"];
+        };
+    };
+    getMerchantActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The merchant ID. */
+                id: components["parameters"]["MerchantId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The entries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Activity"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    requestMerchantActivation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The merchant ID. */
+                id: components["parameters"]["MerchantId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StatusReason"];
+            };
+        };
+        responses: {
+            /** @description The request is waiting for a second person. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeRequest"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["MerchantNotFound"];
+            409: components["responses"]["InvalidTransition"];
+        };
+    };
+    requestMerchantFees: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The merchant ID. */
+                id: components["parameters"]["MerchantId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FeeChange"];
+            };
+        };
+        responses: {
+            /** @description The request is waiting for a second person. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeRequest"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["MerchantNotFound"];
+            409: components["responses"]["InvalidTransition"];
         };
     };
     getMerchant: {

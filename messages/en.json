@@ -5,10 +5,16 @@
   "errors": {
     "field": {
       "reasonShort": "Give a reason of at least 5 characters.",
-      "reasonLong": "500 characters at most."
+      "reasonLong": "500 characters at most.",
+      "currencyInvalid": "Use a three-letter code, such as XAF.",
+      "nameLong": "100 characters at most.",
+      "emailInvalid": "Enter a valid email address.",
+      "percentInvalid": "Enter a percentage from 0 to 100, with up to two decimals."
     },
     "invalid_transition": "The merchant's status has changed since you opened this page. Reload and check.",
-    "invalid_request": "The request is invalid. Give a reason of at least 5 characters."
+    "invalid_request": "The request is invalid. Give a reason of at least 5 characters.",
+    "request_conflict": "This request is already decided, has expired, or one like it is already open.",
+    "self_approval": "A second staff member must decide this request."
   },
   "auth": {
     "signIn": {
@@ -34,19 +40,48 @@
       "labelHint": "For example \"YubiKey\" or \"MacBook\".",
       "labelDefault": "My passkey",
       "start": "Register passkey"
+    },
+    "panel": {
+      "heading": "The staff console for ZellaPay",
+      "point1": "Sign-in needs a passkey. Passwords alone never open the console.",
+      "point2": "Every action is recorded with who did it and why.",
+      "point3": "Personal data stays hidden unless you have a reason to see it."
     }
   },
   "nav": {
     "overview": "Overview",
     "security": "Security",
     "menu": "Main navigation",
-    "merchants": "Merchants"
+    "merchants": "Merchants",
+    "approvals": "Approvals"
   },
   "home": {
     "welcome": "Hello, {name}",
-    "intro": "The console is ready. Merchant management, application review and audit logs arrive in upcoming releases.",
     "role": "Role: {role}",
-    "secondPasskey": "Add a second passkey. If you lose the first one, you will not be able to sign in."
+    "secondPasskey": "Add a second passkey. If you lose the first one, you will not be able to sign in.",
+    "stats": {
+      "total": "All merchants",
+      "week": "{count} in the last 7 days",
+      "none": "None in the last 7 days"
+    },
+    "charts": {
+      "registered": "Merchants registered, last {days} days",
+      "registeredSummary": "Bar chart of merchants registered per day over the last {days} days",
+      "status": "Merchants by status",
+      "statusSummary": "{active} active, {pending} pending, {suspended} suspended"
+    },
+    "recent": {
+      "title": "Latest merchants",
+      "all": "View all"
+    },
+    "attention": {
+      "title": "Needs attention",
+      "pending": "{count} waiting to be activated",
+      "suspended": "{count} suspended",
+      "passkey": "Register a second passkey",
+      "clear": "Nothing needs attention.",
+      "approvals": "{count} waiting for your decision"
+    }
   },
   "roles": {
     "support": "Support",
@@ -57,7 +92,7 @@
   },
   "security": {
     "title": "Security",
-    "subtitle": "Manage your passkeys.",
+    "subtitle": "Your sign-in methods and this session.",
     "passkeys": {
       "title": "Passkeys",
       "subtitle": "Every staff member registers at least two.",
@@ -67,7 +102,23 @@
       "never": "Never",
       "empty": "No passkeys.",
       "add": "Add a passkey",
-      "added": "Passkey added."
+      "added": "Passkey added.",
+      "status": "{count} of {target} registered",
+      "needSecond": "Register a second passkey. If you lose your only one, no one but another administrator can get you back in.",
+      "ok": "You have a spare passkey."
+    },
+    "account": {
+      "title": "Your account",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role"
+    },
+    "session": {
+      "title": "This session",
+      "started": "Signed in",
+      "verified": "Passkey used",
+      "expires": "Ends at the latest",
+      "note": "A session ends after 15 minutes without activity, and after 8 hours in all."
     }
   },
   "merchants": {
@@ -103,7 +154,8 @@
       "id": "Merchant ID",
       "kyc": "Identity check",
       "fee": "Collection fee",
-      "payoutFee": "Payout fee"
+      "payoutFee": "Payout fee",
+      "heading": "Merchant"
     },
     "reason": {
       "label": "Reason",
@@ -121,6 +173,53 @@
       "warning": "The merchant's API keys work again and payments resume.",
       "submit": "Restore merchant",
       "done": "The merchant is active again."
+    },
+    "back": "Back to merchants",
+    "notice": {
+      "created": "The merchant was created. It stays pending until it is activated.",
+      "invited": "The merchant was created and the owner was invited by email.",
+      "inviteFailed": "The merchant was created, but the invitation could not be sent. Invite the owner below."
+    },
+    "create": {
+      "cta": "New merchant",
+      "title": "Register a merchant",
+      "subtitle": "The merchant starts pending and cannot take payments until it is activated.",
+      "section": "Business",
+      "submit": "Create merchant",
+      "name": "Business name",
+      "currency": "Currency",
+      "owner": "Owner's email",
+      "ownerHint": "Optional. We email the owner a link to set up their account.",
+      "reasonHint": "Required. For example a contract reference. It is kept in the audit log.",
+      "notAllowed": "Your role cannot register merchants."
+    },
+    "invite": {
+      "title": "Invite a person",
+      "subtitle": "Sends a single-use link by email. A newer invitation replaces an older one.",
+      "submit": "Send invitation",
+      "email": "Email address",
+      "role": "Role",
+      "done": "Invitation sent to {email}.",
+      "another": "Invite someone else",
+      "roles": {
+        "owner": "Owner",
+        "admin": "Administrator",
+        "developer": "Developer",
+        "finance": "Finance",
+        "support": "Support"
+      }
+    },
+    "pricing": {
+      "title": "Pricing",
+      "collection": "Collection fee",
+      "collectionHint": "Taken from each payment the merchant collects.",
+      "payout": "Payout fee",
+      "payoutHint": "Taken from each payout the merchant sends.",
+      "taxNote": "Tax is not set up in the platform yet. Fees shown are ZellaPay's only."
+    },
+    "operators": {
+      "title": "Operators",
+      "subtitle": "The same for every merchant. Numbers are routed by prefix."
     }
   }
 }

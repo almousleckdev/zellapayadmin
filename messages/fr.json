@@ -5,10 +5,16 @@
   "errors": {
     "field": {
       "reasonShort": "Indiquez un motif d'au moins 5 caractères.",
-      "reasonLong": "500 caractères au maximum."
+      "reasonLong": "500 caractères au maximum.",
+      "currencyInvalid": "Utilisez un code de trois lettres, comme XAF.",
+      "nameLong": "100 caractères au maximum.",
+      "emailInvalid": "Saisissez une adresse email valide.",
+      "percentInvalid": "Saisissez un pourcentage de 0 à 100, avec deux décimales au plus."
     },
     "invalid_transition": "Le statut du marchand a changé depuis l'ouverture de cette page. Rechargez et vérifiez.",
-    "invalid_request": "La demande est invalide. Indiquez un motif d'au moins 5 caractères."
+    "invalid_request": "La demande est invalide. Indiquez un motif d'au moins 5 caractères.",
+    "request_conflict": "Cette demande est déjà décidée, a expiré, ou une demande semblable est déjà ouverte.",
+    "self_approval": "Un second membre du personnel doit décider de cette demande."
   },
   "auth": {
     "signIn": {
@@ -34,19 +40,48 @@
       "labelHint": "Par exemple « YubiKey » ou « MacBook ».",
       "labelDefault": "Ma clé d’accès",
       "start": "Enregistrer la clé d’accès"
+    },
+    "panel": {
+      "heading": "La console du personnel ZellaPay",
+      "point1": "La connexion exige une passkey. Un mot de passe seul n'ouvre jamais la console.",
+      "point2": "Chaque action est enregistrée avec son auteur et son motif.",
+      "point3": "Les données personnelles restent masquées sans raison de les consulter."
     }
   },
   "nav": {
     "overview": "Aperçu",
     "security": "Sécurité",
     "menu": "Navigation principale",
-    "merchants": "Marchands"
+    "merchants": "Marchands",
+    "approvals": "Approbations"
   },
   "home": {
     "welcome": "Bonjour, {name}",
-    "intro": "La console est prête. La gestion des marchands, la revue des dossiers et les journaux d’audit arrivent dans les prochaines versions.",
     "role": "Rôle : {role}",
-    "secondPasskey": "Ajoutez une deuxième clé d’accès. Si vous perdez la première, vous ne pourrez plus vous connecter."
+    "secondPasskey": "Ajoutez une deuxième clé d’accès. Si vous perdez la première, vous ne pourrez plus vous connecter.",
+    "stats": {
+      "total": "Tous les marchands",
+      "week": "{count} sur les 7 derniers jours",
+      "none": "Aucun sur les 7 derniers jours"
+    },
+    "charts": {
+      "registered": "Marchands inscrits, {days} derniers jours",
+      "registeredSummary": "Diagramme en barres des marchands inscrits par jour sur les {days} derniers jours",
+      "status": "Marchands par statut",
+      "statusSummary": "{active} actifs, {pending} en attente, {suspended} suspendus"
+    },
+    "recent": {
+      "title": "Derniers marchands",
+      "all": "Tout voir"
+    },
+    "attention": {
+      "title": "À traiter",
+      "pending": "{count} en attente d'activation",
+      "suspended": "{count} suspendus",
+      "passkey": "Enregistrer une seconde passkey",
+      "clear": "Rien à traiter.",
+      "approvals": "{count} en attente de votre décision"
+    }
   },
   "roles": {
     "support": "Support",
@@ -57,7 +92,7 @@
   },
   "security": {
     "title": "Sécurité",
-    "subtitle": "Gérez vos clés d’accès.",
+    "subtitle": "Vos moyens de connexion et cette session.",
     "passkeys": {
       "title": "Clés d’accès",
       "subtitle": "Chaque personne du personnel enregistre au moins deux clés.",
@@ -67,7 +102,23 @@
       "never": "Jamais",
       "empty": "Aucune clé d’accès.",
       "add": "Ajouter une clé d’accès",
-      "added": "Clé d’accès ajoutée."
+      "added": "Clé d’accès ajoutée.",
+      "status": "{count} sur {target} enregistrées",
+      "needSecond": "Enregistrez une seconde passkey. Si vous perdez la seule que vous avez, seul un autre administrateur pourra vous rouvrir l'accès.",
+      "ok": "Vous avez une passkey de secours."
+    },
+    "account": {
+      "title": "Votre compte",
+      "name": "Nom",
+      "email": "Email",
+      "role": "Rôle"
+    },
+    "session": {
+      "title": "Cette session",
+      "started": "Connecté",
+      "verified": "Passkey utilisée",
+      "expires": "Se termine au plus tard",
+      "note": "Une session se termine après 15 minutes d'inactivité, et après 8 heures au total."
     }
   },
   "merchants": {
@@ -103,7 +154,8 @@
       "id": "Identifiant du marchand",
       "kyc": "Vérification d'identité",
       "fee": "Frais d'encaissement",
-      "payoutFee": "Frais de versement"
+      "payoutFee": "Frais de versement",
+      "heading": "Marchand"
     },
     "reason": {
       "label": "Motif",
@@ -121,6 +173,53 @@
       "warning": "Les clés API du marchand refonctionnent et les paiements reprennent.",
       "submit": "Rétablir le marchand",
       "done": "Le marchand est de nouveau actif."
+    },
+    "back": "Retour aux marchands",
+    "notice": {
+      "created": "Le marchand a été créé. Il reste en attente tant qu'il n'est pas activé.",
+      "invited": "Le marchand a été créé et son propriétaire a été invité par email.",
+      "inviteFailed": "Le marchand a été créé, mais l'invitation n'a pas pu être envoyée. Invitez le propriétaire ci-dessous."
+    },
+    "create": {
+      "cta": "Nouveau marchand",
+      "title": "Enregistrer un marchand",
+      "subtitle": "Le marchand démarre en attente et ne peut pas encaisser tant qu'il n'est pas activé.",
+      "section": "Entreprise",
+      "submit": "Créer le marchand",
+      "name": "Raison sociale",
+      "currency": "Devise",
+      "owner": "Email du propriétaire",
+      "ownerHint": "Facultatif. Nous envoyons au propriétaire un lien pour créer son compte.",
+      "reasonHint": "Obligatoire. Par exemple une référence de contrat. Il est conservé dans le journal d'audit.",
+      "notAllowed": "Votre rôle ne permet pas d'enregistrer des marchands."
+    },
+    "invite": {
+      "title": "Inviter une personne",
+      "subtitle": "Envoie un lien à usage unique par email. Une nouvelle invitation remplace l'ancienne.",
+      "submit": "Envoyer l'invitation",
+      "email": "Adresse email",
+      "role": "Rôle",
+      "done": "Invitation envoyée à {email}.",
+      "another": "Inviter quelqu'un d'autre",
+      "roles": {
+        "owner": "Propriétaire",
+        "admin": "Administrateur",
+        "developer": "Développeur",
+        "finance": "Finance",
+        "support": "Support"
+      }
+    },
+    "pricing": {
+      "title": "Tarification",
+      "collection": "Frais d'encaissement",
+      "collectionHint": "Prélevés sur chaque paiement encaissé par le marchand.",
+      "payout": "Frais de versement",
+      "payoutHint": "Prélevés sur chaque versement envoyé par le marchand.",
+      "taxNote": "La taxe n'est pas encore gérée par la plateforme. Les frais affichés sont ceux de ZellaPay uniquement."
+    },
+    "operators": {
+      "title": "Opérateurs",
+      "subtitle": "Les mêmes pour tous les marchands. Les numéros sont routés par préfixe."
     }
   }
 }

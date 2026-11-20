@@ -17,6 +17,11 @@ export function MerchantsTable({ locale, t, merchants }: Props) {
       cell: (m) => <TextLink href={merchantRoute(locale, m.id)}>{m.name}</TextLink>,
     },
     {
+      id: "id",
+      header: t("merchants.detail.id"),
+      cell: (m) => <span className="font-mono text-xs text-muted">{m.id}</span>,
+    },
+    {
       id: "status",
       header: t("merchants.columns.status"),
       cell: (m) => <StatusBadge status={m.status} t={t} />,
@@ -25,7 +30,7 @@ export function MerchantsTable({ locale, t, merchants }: Props) {
     {
       id: "created",
       header: t("merchants.columns.created"),
-      cell: (m) => when.format(new Date(m.created_at)),
+      cell: (m) => <span className="text-muted">{when.format(new Date(m.created_at))}</span>,
     },
   ];
   return (

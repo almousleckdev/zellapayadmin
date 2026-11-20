@@ -6,7 +6,8 @@ export type RouteName =
   | "passkey"
   | "passkeySetup"
   | "security"
-  | "merchants";
+  | "merchants"
+  | "approvals";
 
 const paths: Record<RouteName, string> = {
   home: "",
@@ -15,6 +16,7 @@ const paths: Record<RouteName, string> = {
   passkeySetup: "/passkey/setup",
   security: "/security",
   merchants: "/merchants",
+  approvals: "/approvals",
 };
 
 /** The URL of a page in a language. Every link and redirect goes through it. */

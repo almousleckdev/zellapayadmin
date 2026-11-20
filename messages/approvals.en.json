@@ -1,0 +1,78 @@
+{
+  "approvals": {
+    "title": "Approvals",
+    "subtitle": "Changes that need a second person before they take effect.",
+    "openTitle": "Waiting for a decision",
+    "recentTitle": "Decided recently",
+    "noneOpen": "Nothing is waiting for a decision.",
+    "noneRecent": "Nothing has been decided yet.",
+    "status": {
+      "pending": "Waiting",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "expired": "Expired"
+    },
+    "kind": {
+      "activate": "Let this merchant go live",
+      "fees": "Change fees to {fee} on collections and {payout} on payouts"
+    },
+    "byYou": "Requested by you",
+    "byColleague": "Requested by a colleague",
+    "expires": "expires {at}",
+    "decision": "Decision: {reason}",
+    "waiting": "Waiting for a second person. You cannot approve your own request.",
+    "approve": {
+      "trigger": "Approve",
+      "title": "Approve this change",
+      "submit": "Approve",
+      "done": "Approved. The change is now in effect."
+    },
+    "reject": {
+      "trigger": "Reject",
+      "title": "Reject this change",
+      "submit": "Reject",
+      "done": "Rejected. Nothing was changed."
+    },
+    "activation": {
+      "title": "Go live",
+      "subtitle": "A second person must approve before the merchant can take payments.",
+      "trigger": "Request activation",
+      "submit": "Send request",
+      "done": "Requested. A second person now needs to approve it.",
+      "waiting": "Activation is waiting for a second person to approve it.",
+      "noRole": "Your role cannot request activation."
+    },
+    "fees": {
+      "trigger": "Change fees",
+      "title": "Change fees",
+      "subtitle": "The new fees apply only after a second person approves.",
+      "submit": "Send request",
+      "done": "Requested. The fees change after a second person approves.",
+      "collection": "Collection fee (%)",
+      "payout": "Payout fee (%)",
+      "percentHint": "For example 1.5",
+      "pending": "Change pending"
+    }
+  },
+  "activity": {
+    "title": "Activity",
+    "empty": "Nothing has happened to this merchant yet.",
+    "actions": {
+      "merchant": {
+        "created": "Merchant created",
+        "suspended": "Merchant suspended",
+        "restored": "Merchant restored",
+        "activated": "Merchant activated",
+        "activation_requested": "Activation requested",
+        "fees_requested": "Fee change requested",
+        "fees_changed": "Fees changed",
+        "change_rejected": "Request rejected"
+      },
+      "api_key": {
+        "created": "API key created",
+        "rotated": "API key rotated",
+        "revoked": "API key revoked"
+      }
+    }
+  }
+}
